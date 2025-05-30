@@ -137,7 +137,6 @@
 
         .card:hover {
             box-shadow: var(--shadow-lg);
-            transform: translateY(-4px);
             border-color: rgba(37, 99, 235, 0.2);
         }
 
@@ -171,12 +170,11 @@
 
         .btn:hover {
             background: var(--primary-dark);
-            transform: translateY(-2px);
             box-shadow: 0 8px 25px var(--primary-glow);
         }
 
         .btn:active {
-            transform: translateY(0);
+            transform: scale(0.98);
         }
 
         .btn-secondary {
@@ -358,7 +356,6 @@
         }
 
         .project-card:hover {
-            transform: translateY(-8px);
             box-shadow: var(--shadow-xl);
             border-color: rgba(37, 99, 235, 0.2);
         }
@@ -451,13 +448,13 @@
             max-height: 80vh;
             overflow-y: auto;
             box-shadow: var(--shadow-xl);
-            transform: scale(0.9) translateY(20px);
+            transform: scale(0.9);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid var(--border);
         }
 
         .modal.show .modal-content {
-            transform: scale(1) translateY(0);
+            transform: scale(1);
         }
 
         .modal-header {
@@ -499,7 +496,6 @@
         }
 
         .stat-card:hover {
-            transform: translateY(-2px);
             box-shadow: var(--shadow-md);
             border-color: rgba(37, 99, 235, 0.2);
         }
