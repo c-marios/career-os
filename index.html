@@ -4,777 +4,341 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Career Operating System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'bounce-gentle': 'bounce-gentle 2s infinite',
+                        'pulse-slow': 'pulse 3s infinite',
+                        'shimmer': 'shimmer 2s infinite',
+                        'celebrate': 'celebrate 0.6s ease-out',
+                        'confetti-fall': 'confetti-fall 1s ease-out forwards',
+                        'success-pop': 'success-pop 0.4s ease-out',
+                    },
+                    keyframes: {
+                        'bounce-gentle': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-5px)' }
+                        },
+                        'shimmer': {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(200%)' }
+                        },
+                        'celebrate': {
+                            '0%': { transform: 'scale(1) rotate(0deg)' },
+                            '50%': { transform: 'scale(1.1) rotate(5deg)' },
+                            '100%': { transform: 'scale(1.05) rotate(0deg)' }
+                        },
+                        'confetti-fall': {
+                            '0%': { transform: 'translateY(0) rotate(0deg)', opacity: '1' },
+                            '100%': { transform: 'translateY(100px) rotate(360deg)', opacity: '0' }
+                        },
+                        'success-pop': {
+                            '0%': { transform: 'scale(1)' },
+                            '50%': { transform: 'scale(1.1)' },
+                            '100%': { transform: 'scale(1)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
         }
 
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --primary-light: #3b82f6;
-            --primary-glow: rgba(37, 99, 235, 0.4);
-            --secondary: #64748b;
-            --success: #10b981;
-            --success-light: #34d399;
-            --background: #f8fafc;
-            --background-alt: #f1f5f9;
-            --surface: #ffffff;
-            --surface-elevated: #ffffff;
-            --text: #0f172a;
-            --text-secondary: #334155;
-            --text-light: #64748b;
-            --text-lighter: #94a3b8;
-            --border: #e2e8f0;
-            --border-light: #f1f5f9;
-            --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.06);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.05);
-            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
-            --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.15);
-            --radius-sm: 0.5rem;
-            --radius-md: 0.75rem;
-            --radius-lg: 1rem;
-            --radius-xl: 1.25rem;
-            --radius-2xl: 1.5rem;
-            --radius-3xl: 2rem;
-            --spacing-xs: 0.5rem;
-            --spacing-sm: 0.75rem;
-            --spacing-md: 1rem;
-            --spacing-lg: 1.5rem;
-            --spacing-xl: 2rem;
-            --spacing-2xl: 2.5rem;
-            --spacing-3xl: 3rem;
-            --spacing-4xl: 4rem;
-            --spacing-5xl: 5rem;
-        }
-
-        [data-theme="dark"] {
-            --background: #0f172a;
-            --surface: #1e293b;
-            --text: #f1f5f9;
-            --text-light: #94a3b8;
-            --border: #334155;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--background);
-            color: var(--text);
-            line-height: 1.6;
-            transition: all 0.3s ease;
-            font-size: 16px;
-            font-weight: 400;
-            letter-spacing: -0.01em;
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-weight: 600;
-            letter-spacing: -0.025em;
-            line-height: 1.2;
-            margin: 0;
-        }
-
-        h1 { font-size: 2.5rem; font-weight: 700; }
-        h2 { font-size: 2rem; font-weight: 600; }
-        h3 { font-size: 1.5rem; font-weight: 600; }
-        h4 { font-size: 1.25rem; font-weight: 600; }
-        h5 { font-size: 1.125rem; font-weight: 500; }
-        h6 { font-size: 1rem; font-weight: 500; }
-
-        p {
-            margin: 0 0 var(--spacing-md);
-            line-height: 1.65;
-            color: var(--text-secondary);
-        }
-
-        .text-sm { font-size: 0.875rem; }
-        .text-xs { font-size: 0.75rem; }
-        .text-lg { font-size: 1.125rem; }
-        .text-xl { font-size: 1.25rem; }
-
-        .header {
-            position: fixed;
-            top: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 2rem;
-            padding: 0.75rem 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        .btn-premium {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            max-width: fit-content;
-        }
-
-        [data-theme="dark"] .header {
-            background: rgba(30, 41, 59, 0.9);
-            border: 1px solid rgba(148, 163, 184, 0.2);
-        }
-
-        .header:hover {
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
-        }
-
-        [data-theme="dark"] .header:hover {
-            background: rgba(30, 41, 59, 0.95);
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-        }
-
-        .logo {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--primary);
-            letter-spacing: -0.02em;
-        }
-
-        .nav {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            color: var(--text-light);
-            cursor: pointer;
-            padding: 0.5rem 1.25rem;
-            border-radius: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            font-weight: 600;
-            font-size: 0.875rem;
             position: relative;
             overflow: hidden;
         }
 
-        .nav-btn:hover {
-            color: var(--primary);
-            background: rgba(37, 99, 235, 0.1);
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
         }
 
-        .nav-btn.active {
-            color: white;
-            background: var(--primary);
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+        .btn-premium:hover::before {
+            left: 100%;
         }
 
-        .nav-btn.active::before {
+        .btn-premium:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-premium:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            animation: success-pop 0.4s ease-out;
+        }
+
+        .task-item-premium {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .task-item-premium:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .task-completing {
+            background: linear-gradient(135deg, #10b981, #34d399) !important;
+            color: white !important;
+            animation: celebrate 0.6s ease-out;
+        }
+
+        .progress-premium {
+            background: linear-gradient(90deg, #10b981, #34d399, #06b6d4);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-premium::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
-            pointer-events: none;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 2s infinite;
         }
 
-        .theme-toggle {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 0.5rem;
-            border-radius: 1rem;
-            cursor: pointer;
+        .skill-premium {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 2.5rem;
-            height: 2.5rem;
-            font-size: 1rem;
-            margin-left: 0.5rem;
         }
 
-        .theme-toggle:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-            transform: scale(1.05);
+        .skill-premium:hover {
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 8rem 2rem 2rem;
-        }
-
-        .view {
-            display: none;
-        }
-
-        .view.active {
-            display: block;
-        }
-
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .card {
-            background: var(--surface);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            box-shadow: var(--shadow-md);
-            border: 1px solid var(--border);
+        .project-card-premium {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(10px);
         }
 
-        .card:hover {
-            box-shadow: var(--shadow-lg);
-            border-color: rgba(37, 99, 235, 0.2);
+        .project-card-premium:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
         }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.875rem;
+        .stat-card-premium {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
             position: relative;
             overflow: hidden;
         }
 
-        .btn:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 8px 25px var(--primary-glow);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-secondary {
-            background: var(--surface);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--background);
-        }
-
-        .input-group {
-            margin-bottom: 1rem;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: var(--text);
-        }
-
-        .input, .textarea, .select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            background: var(--surface);
-            color: var(--text);
-            transition: all 0.2s;
-        }
-
-        .input:focus, .textarea:focus, .select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .task-list {
-            space-y: 0.5rem;
-        }
-
-        .task-item {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            background: var(--background);
-            border-radius: 0.5rem;
-            margin-bottom: 0.5rem;
-            transition: all 0.2s;
-        }
-
-        .task-item:hover {
-            background: var(--border);
-        }
-
-        .task-item.completed {
-            opacity: 0.6;
-            text-decoration: line-through;
-        }
-
-        .checkbox {
-            width: 1.25rem;
-            height: 1.25rem;
-            cursor: pointer;
-        }
-
-        .task-text {
-            flex: 1;
-            color: var(--text);
-        }
-
-        .task-actions {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .btn-small {
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            border-radius: 0.25rem;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-        }
-
-        .skill-item {
-            background: var(--background);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid var(--border);
-        }
-
-        .skill-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .skill-name {
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .skill-level {
-            background: var(--primary);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.75rem;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 0.5rem;
-            background: var(--border);
-            border-radius: 0.25rem;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--success);
-            transition: width 0.3s ease;
-        }
-
-        /* Portfolio View */
-        #portfolio .card {
-            margin-bottom: 3rem;
-        }
-
-        #portfolio .card:last-child {
-            margin-bottom: 0;
-        }
-
-        .portfolio-header {
-            text-align: center;
-            margin-bottom: 4rem;
-            padding: 4rem 2rem;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            border-radius: 2rem;
-            box-shadow: var(--shadow-lg);
-        }
-
-        .portfolio-title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -0.02em;
-        }
-
-        .portfolio-subtitle {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            font-weight: 400;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 2rem;
-        }
-
-        .project-card {
-            background: var(--surface);
-            border-radius: var(--radius-2xl);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--border);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            group: hover;
-        }
-
-        .project-card:hover {
-            box-shadow: var(--shadow-2xl);
-            border-color: rgba(37, 99, 235, 0.2);
-            transform: scale(1.02);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 240px;
-            background: linear-gradient(135deg, var(--primary), var(--success));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.875rem;
-            font-weight: 700;
-            letter-spacing: 0.05em;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-image::before {
+        .stat-card-premium::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.1), transparent 50%);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .project-card:hover .project-image::before {
-            transform: translateX(100%);
-        }
-
-        .project-content {
-            padding: var(--spacing-2xl);
-        }
-
-        .project-title {
-            font-size: 1.375rem;
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text);
-            letter-spacing: -0.01em;
-        }
-
-        .project-description {
-            color: var(--text-light);
-            margin-bottom: var(--spacing-lg);
-            line-height: 1.6;
-            font-size: 0.95rem;
-        }
-
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-xs);
-        }
-
-        .tech-tag {
-            background: var(--background-alt);
-            color: var(--text-secondary);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--radius-md);
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
-        }
-
-        .tech-tag:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
             opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
         }
 
-        .modal.show {
+        .stat-card-premium:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .stat-card-premium:hover::before {
+            opacity: 0.05;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            pointer-events: none;
+            z-index: 9999;
+            border-radius: 50%;
+            animation: confetti-fall 1s ease-out forwards;
+        }
+
+        .floating-nav {
+            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-nav:hover {
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn-premium {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn-premium.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .nav-btn-premium:hover:not(.active) {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            transform: translateY(-1px);
+        }
+
+        .empty-state-premium {
+            background: linear-gradient(135deg, #f8fafc, #ffffff);
+            border: 2px dashed #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .empty-state-premium:hover {
+            border-color: #3b82f6;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc);
+            transform: scale(1.01);
+        }
+
+        .modal-premium {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.6);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-content-premium {
+            background: white;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.9) translateY(20px);
+            opacity: 0;
+        }
+
+        .modal-premium.show .modal-content-premium {
+            transform: scale(1) translateY(0);
             opacity: 1;
-            visibility: visible;
         }
 
-        .modal-content {
-            background: var(--surface);
-            border-radius: 1.5rem;
-            padding: 2.5rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-xl);
-            transform: scale(0.9);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid var(--border);
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .modal-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text);
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: var(--text-light);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .stat-card {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 1.25rem;
-            text-align: center;
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
+        .input-premium {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .stat-card:hover {
-            box-shadow: var(--shadow-md);
-            border-color: rgba(37, 99, 235, 0.2);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.02em;
-        }
-
-        .stat-label {
-            color: var(--text-light);
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
-
-        @media (max-width: 1200px) {
-            .container {
-                padding: 7rem 2rem 2rem;
-            }
-            
-            .projects-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-                gap: 2rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 1.5rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 1.25rem;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .portfolio-title {
-                font-size: 2rem;
-            }
-            
-            .container {
-                padding: 7rem 1rem 1rem;
-            }
-            
-            .header {
-                top: 1rem;
-                left: 1rem;
-                right: 1rem;
-                transform: none;
-                max-width: none;
-            }
-
-            .header-content {
-                gap: 1rem;
-            }
-
-            .nav {
-                gap: 0.25rem;
-            }
-
-            .nav-btn {
-                padding: 0.5rem 1rem;
-                font-size: 0.8rem;
-            }
-
-            .logo {
-                font-size: 1.1rem;
-            }
-
-            .projects-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-                gap: 1rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
-            .portfolio-header {
-                padding: 3rem 1.5rem;
-                margin-bottom: 3rem;
-            }
+        .input-premium:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #3b82f6;
+            transform: scale(1.01);
         }
     </style>
 </head>
-<body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">Career OS</div>
-            <nav class="nav">
-                <button class="nav-btn active" onclick="switchView('dashboard')">Dashboard</button>
-                <button class="nav-btn" onclick="switchView('portfolio')">Portfolio</button>
-                <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
-            </nav>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+    <!-- Floating Navigation -->
+    <header class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50">
+        <div class="floating-nav rounded-2xl px-6 py-3 shadow-lg">
+            <div class="flex items-center gap-8">
+                <div class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    Career OS
+                </div>
+                <nav class="flex gap-2">
+                    <button class="nav-btn-premium active px-4 py-2 rounded-xl font-semibold text-sm transition-all" onclick="switchView('dashboard')">
+                        Dashboard
+                    </button>
+                    <button class="nav-btn-premium px-4 py-2 rounded-xl font-semibold text-sm transition-all" onclick="switchView('portfolio')">
+                        Portfolio
+                    </button>
+                </nav>
+                <button class="p-2 rounded-xl bg-gray-100 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 hover:text-white transition-all duration-300 transform hover:scale-110" onclick="toggleTheme()">
+                    🌙
+                </button>
+            </div>
         </div>
     </header>
 
-    <main class="container">
+    <main class="pt-32 px-6 pb-12">
         <!-- Dashboard View -->
-        <div id="dashboard" class="view active">
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalTasks">0</div>
-                    <div class="stat-label">Total Tasks</div>
+        <div id="dashboard" class="view active max-w-7xl mx-auto">
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <div class="stat-card-premium bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                    <div class="text-center relative z-10">
+                        <div class="text-4xl font-bold text-blue-600 mb-2" id="totalTasks">0</div>
+                        <div class="text-gray-600 font-medium">Total Goals</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="completedTasks">0</div>
-                    <div class="stat-label">Completed</div>
+                <div class="stat-card-premium bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                    <div class="text-center relative z-10">
+                        <div class="text-4xl font-bold text-emerald-600 mb-2" id="completedTasks">0</div>
+                        <div class="text-gray-600 font-medium">Completed</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalSkills">0</div>
-                    <div class="stat-label">Skills Tracked</div>
+                <div class="stat-card-premium bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                    <div class="text-center relative z-10">
+                        <div class="text-4xl font-bold text-purple-600 mb-2" id="totalSkills">0</div>
+                        <div class="text-gray-600 font-medium">Skills Tracked</div>
+                    </div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="totalProjects">0</div>
-                    <div class="stat-label">Projects</div>
+                <div class="stat-card-premium bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                    <div class="text-center relative z-10">
+                        <div class="text-4xl font-bold text-orange-600 mb-2" id="totalProjects">0</div>
+                        <div class="text-gray-600 font-medium">Projects</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="dashboard-grid">
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Current Goals</h2>
-                        <button class="btn" onclick="openModal('taskModal')">Add Task</button>
+            <!-- Main Dashboard Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <!-- Current Goals -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                    <div class="flex justify-between items-center mb-8 pb-6 border-b border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-900">🎯 Current Goals</h2>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('taskModal')">
+                            Add Goal
+                        </button>
                     </div>
-                    <div class="task-list" id="taskList">
+                    <div id="taskList" class="space-y-3">
                         <!-- Tasks will be populated here -->
                     </div>
                 </div>
 
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Skills Development</h2>
-                        <button class="btn" onclick="openModal('skillModal')">Add Skill</button>
+                <!-- Skills Development -->
+                <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                    <div class="flex justify-between items-center mb-8 pb-6 border-b border-gray-100">
+                        <h2 class="text-2xl font-bold text-gray-900">⚡ Skills Development</h2>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('skillModal')">
+                            Add Skill
+                        </button>
                     </div>
-                    <div class="skills-grid" id="skillsList">
+                    <div id="skillsList" class="grid grid-cols-1 gap-4">
                         <!-- Skills will be populated here -->
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <h2 class="card-title">Recent Accomplishments</h2>
-                    <button class="btn" onclick="openModal('achievementModal')">Add Achievement</button>
+            <!-- Recent Accomplishments -->
+            <div class="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
+                <div class="flex justify-between items-center mb-8 pb-6 border-b border-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900">🏆 Recent Accomplishments</h2>
+                    <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('achievementModal')">
+                        Add Achievement
+                    </button>
                 </div>
                 <div id="achievementsList">
                     <!-- Achievements will be populated here -->
@@ -783,36 +347,59 @@
         </div>
 
         <!-- Portfolio View -->
-        <div id="portfolio" class="view">
-            <div class="portfolio-header">
-                <h1 class="portfolio-title">John Doe</h1>
-                <p class="portfolio-subtitle">Computer Science Graduate | Software Developer</p>
+        <div id="portfolio" class="view hidden max-w-7xl mx-auto">
+            <!-- Portfolio Header -->
+            <div class="text-center mb-16 p-16 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-3xl shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
+                <div class="relative z-10">
+                    <h1 class="text-6xl font-bold mb-4 leading-tight">Marios Lefkides</h1>
+                    <p class="text-xl opacity-90 font-medium">Computer Science Graduate | Software Developer</p>
+                </div>
             </div>
 
-            <div class="card">
-                <h2 class="card-title">About Me</h2>
-                <p id="aboutText">Recent Computer Science graduate with a passion for building innovative solutions. Skilled in multiple programming languages and eager to contribute to challenging projects that make a real impact.</p>
-                <button class="btn btn-secondary" onclick="openModal('aboutModal')" style="margin-top: 1rem;">Edit About</button>
+            <!-- About Me -->
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">About Me</h2>
+                    <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('aboutModal')">
+                        Edit About
+                    </button>
+                </div>
+                <p id="aboutText" class="text-gray-700 leading-relaxed text-lg">
+                    Recent Computer Science graduate with a passion for building innovative solutions. 
+                    Skilled in multiple programming languages and eager to contribute to challenging projects that make a real impact.
+                </p>
             </div>
 
-            <div class="card">
-                <h2 class="card-title">Technical Skills</h2>
-                <div class="skills-grid" id="portfolioSkills">
+            <!-- Technical Skills -->
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-8">Technical Skills</h2>
+                <div id="portfolioSkills" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Skills will be mirrored here from dashboard -->
                 </div>
             </div>
 
-            <div class="card">
-                <h2 class="card-title">Projects</h2>
-                <button class="btn" onclick="openModal('projectModal')" style="margin-bottom: 1rem;">Add Project</button>
-                <div class="projects-grid" id="projectsList">
+            <!-- Projects -->
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100 mb-12">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Projects</h2>
+                    <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('projectModal')">
+                        Add Project
+                    </button>
+                </div>
+                <div id="projectsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Projects will be populated here -->
                 </div>
             </div>
 
-            <div class="card">
-                <h2 class="card-title">Professional Experience</h2>
-                <button class="btn" onclick="openModal('experienceModal')" style="margin-bottom: 1rem;">Add Experience</button>
+            <!-- Professional Experience -->
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-gray-100">
+                <div class="flex justify-between items-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900">Professional Experience</h2>
+                    <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('experienceModal')">
+                        Add Experience
+                    </button>
+                </div>
                 <div id="experienceList">
                     <!-- Experience will be populated here -->
                 </div>
@@ -821,20 +408,20 @@
     </main>
 
     <!-- Modals -->
-    <div id="taskModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Task</h3>
-                <button class="close-btn" onclick="closeModal('taskModal')">&times;</button>
+    <div id="taskModal" class="modal-premium fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content-premium bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Add New Goal</h3>
+                <button class="text-gray-400 hover:text-gray-600 text-2xl" onclick="closeModal('taskModal')">&times;</button>
             </div>
-            <form onsubmit="addTask(event)">
-                <div class="input-group">
-                    <label>Task Description</label>
-                    <input type="text" class="input" id="taskInput" required>
+            <form onsubmit="addTask(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Goal Description</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="taskInput" required>
                 </div>
-                <div class="input-group">
-                    <label>Category</label>
-                    <select class="select" id="taskCategory">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                    <select class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="taskCategory">
                         <option value="learning">Learning</option>
                         <option value="career">Career</option>
                         <option value="project">Project</option>
@@ -842,38 +429,39 @@
                         <option value="personal">Personal</option>
                     </select>
                 </div>
-                <div class="input-group">
-                    <label>Priority</label>
-                    <select class="select" id="taskPriority">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Priority</label>
+                    <select class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="taskPriority">
                         <option value="low">Low</option>
                         <option value="medium">Medium</option>
                         <option value="high">High</option>
                     </select>
                 </div>
-                <button type="submit" class="btn">Add Task</button>
+                <button type="submit" class="btn-premium w-full text-white py-3 rounded-xl font-semibold shadow-lg">
+                    Add Goal
+                </button>
             </form>
         </div>
     </div>
 
-    <div id="skillModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Skill</h3>
-                <button class="close-btn" onclick="closeModal('skillModal')">&times;</button>
+    <div id="skillModal" class="modal-premium fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content-premium bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Add New Skill</h3>
+                <button class="text-gray-400 hover:text-gray-600 text-2xl" onclick="closeModal('skillModal')">&times;</button>
             </div>
-            <form onsubmit="addSkill(event)">
-                <div class="input-group">
-                    <label>Skill Name</label>
-                    <input type="text" class="input" id="skillInput" required>
+            <form onsubmit="addSkill(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Skill Name</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="skillInput" required>
                 </div>
-                <div class="input-group">
-                    <label>Proficiency Level (1-10)</label>
-                    <input type="range" min="1" max="10" value="5" class="input" id="skillLevel">
-                    <span id="skillLevelDisplay">5</span>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Proficiency Level (1-10): <span id="skillLevelDisplay" class="font-bold text-blue-600">5</span></label>
+                    <input type="range" min="1" max="10" value="5" class="w-full accent-blue-500" id="skillLevel">
                 </div>
-                <div class="input-group">
-                    <label>Category</label>
-                    <select class="select" id="skillCategory">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+                    <select class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="skillCategory">
                         <option value="programming">Programming</option>
                         <option value="framework">Framework</option>
                         <option value="tool">Tool</option>
@@ -881,116 +469,127 @@
                         <option value="soft-skill">Soft Skill</option>
                     </select>
                 </div>
-                <button type="submit" class="btn">Add Skill</button>
+                <button type="submit" class="btn-premium w-full text-white py-3 rounded-xl font-semibold shadow-lg">
+                    Add Skill
+                </button>
             </form>
         </div>
     </div>
 
-    <div id="projectModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add New Project</h3>
-                <button class="close-btn" onclick="closeModal('projectModal')">&times;</button>
+    <div id="projectModal" class="modal-premium fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content-premium bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Add New Project</h3>
+                <button class="text-gray-400 hover:text-gray-600 text-2xl" onclick="closeModal('projectModal')">&times;</button>
             </div>
-            <form onsubmit="addProject(event)">
-                <div class="input-group">
-                    <label>Project Name</label>
-                    <input type="text" class="input" id="projectName" required>
+            <form onsubmit="addProject(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Project Name</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="projectName" required>
                 </div>
-                <div class="input-group">
-                    <label>Description</label>
-                    <textarea class="textarea" id="projectDescription" rows="3" required></textarea>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                    <textarea class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="projectDescription" rows="3" required></textarea>
                 </div>
-                <div class="input-group">
-                    <label>Technologies Used (comma-separated)</label>
-                    <input type="text" class="input" id="projectTech" placeholder="JavaScript, React, Node.js">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Technologies Used (comma-separated)</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="projectTech" placeholder="JavaScript, React, Node.js">
                 </div>
-                <div class="input-group">
-                    <label>Project URL (optional)</label>
-                    <input type="url" class="input" id="projectUrl">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Project URL (optional)</label>
+                    <input type="url" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="projectUrl">
                 </div>
-                <button type="submit" class="btn">Add Project</button>
+                <button type="submit" class="btn-premium w-full text-white py-3 rounded-xl font-semibold shadow-lg">
+                    Add Project
+                </button>
             </form>
         </div>
     </div>
 
-    <div id="experienceModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add Work Experience</h3>
-                <button class="close-btn" onclick="closeModal('experienceModal')">&times;</button>
+    <div id="experienceModal" class="modal-premium fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content-premium bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Add Work Experience</h3>
+                <button class="text-gray-400 hover:text-gray-600 text-2xl" onclick="closeModal('experienceModal')">&times;</button>
             </div>
-            <form onsubmit="addExperience(event)">
-                <div class="input-group">
-                    <label>Job Title</label>
-                    <input type="text" class="input" id="jobTitle" required>
+            <form onsubmit="addExperience(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Job Title</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="jobTitle" required>
                 </div>
-                <div class="input-group">
-                    <label>Company</label>
-                    <input type="text" class="input" id="company" required>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Company</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="company" required>
                 </div>
-                <div class="input-group">
-                    <label>Duration</label>
-                    <input type="text" class="input" id="duration" placeholder="Jan 2023 - Present">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Duration</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="duration" placeholder="Jan 2023 - Present">
                 </div>
-                <div class="input-group">
-                    <label>Description</label>
-                    <textarea class="textarea" id="jobDescription" rows="3"></textarea>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                    <textarea class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="jobDescription" rows="3"></textarea>
                 </div>
-                <button type="submit" class="btn">Add Experience</button>
+                <button type="submit" class="btn-premium w-full text-white py-3 rounded-xl font-semibold shadow-lg">
+                    Add Experience
+                </button>
             </form>
         </div>
     </div>
 
-    <div id="aboutModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Edit About Section</h3>
-                <button class="close-btn" onclick="closeModal('aboutModal')">&times;</button>
+    <div id="aboutModal" class="modal-premium fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content-premium bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Edit About Section</h3>
+                <button class="text-gray-400 hover:text-gray-600 text-2xl" onclick="closeModal('aboutModal')">&times;</button>
             </div>
-            <form onsubmit="updateAbout(event)">
-                <div class="input-group">
-                    <label>About Me</label>
-                    <textarea class="textarea" id="aboutInput" rows="5"></textarea>
+            <form onsubmit="updateAbout(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">About Me</label>
+                    <textarea class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="aboutInput" rows="5"></textarea>
                 </div>
-                <button type="submit" class="btn">Update</button>
+                <button type="submit" class="btn-premium w-full text-white py-3 rounded-xl font-semibold shadow-lg">
+                    Update
+                </button>
             </form>
         </div>
     </div>
 
-    <div id="achievementModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Add Achievement</h3>
-                <button class="close-btn" onclick="closeModal('achievementModal')">&times;</button>
+    <div id="achievementModal" class="modal-premium fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="modal-content-premium bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-900">Add Achievement</h3>
+                <button class="text-gray-400 hover:text-gray-600 text-2xl" onclick="closeModal('achievementModal')">&times;</button>
             </div>
-            <form onsubmit="addAchievement(event)">
-                <div class="input-group">
-                    <label>Achievement Title</label>
-                    <input type="text" class="input" id="achievementTitle" required>
+            <form onsubmit="addAchievement(event)" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Achievement Title</label>
+                    <input type="text" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="achievementTitle" required>
                 </div>
-                <div class="input-group">
-                    <label>Description</label>
-                    <textarea class="textarea" id="achievementDescription" rows="3"></textarea>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                    <textarea class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="achievementDescription" rows="3"></textarea>
                 </div>
-                <div class="input-group">
-                    <label>Date</label>
-                    <input type="date" class="input" id="achievementDate">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Date</label>
+                    <input type="date" class="input-premium w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none" id="achievementDate">
                 </div>
-                <button type="submit" class="btn">Add Achievement</button>
+                <button type="submit" class="btn-premium w-full text-white py-3 rounded-xl font-semibold shadow-lg">
+                    Add Achievement
+                </button>
             </form>
         </div>
     </div>
 
     <script>
-        // Data storage (using in-memory storage since localStorage is not available)
+        // Data storage
         let appData = {
             tasks: [],
             skills: [],
             projects: [],
             experiences: [],
             achievements: [],
-            about: "Recent Computer Science graduate with a passion for building innovative solutions. Skilled in multiple programming languages and eager to contribute to challenging projects that make a real impact."
+            about: "Recent Computer Science graduate with a passion for building innovative solutions. Skilled in multiple programming languages and eager to contribute to challenging projects that make a real impact.",
+            theme: 'light'
         };
 
         // Initialize app
@@ -1012,15 +611,16 @@
 
         // Theme toggling
         function toggleTheme() {
-            const body = document.body;
-            const themeToggle = document.querySelector('.theme-toggle');
+            const themeToggle = document.querySelector('[onclick="toggleTheme()"]');
             
-            if (body.getAttribute('data-theme') === 'dark') {
-                body.removeAttribute('data-theme');
-                themeToggle.textContent = '🌙';
-            } else {
-                body.setAttribute('data-theme', 'dark');
+            if (appData.theme === 'light') {
+                appData.theme = 'dark';
                 themeToggle.textContent = '☀️';
+                document.body.classList.add('dark-theme');
+            } else {
+                appData.theme = 'light';
+                themeToggle.textContent = '🌙';
+                document.body.classList.remove('dark-theme');
             }
         }
 
@@ -1028,13 +628,18 @@
         function switchView(viewName) {
             // Hide all views
             const views = document.querySelectorAll('.view');
-            views.forEach(view => view.classList.remove('active'));
+            views.forEach(view => {
+                view.classList.remove('active');
+                view.classList.add('hidden');
+            });
             
             // Show selected view
-            document.getElementById(viewName).classList.add('active');
+            const targetView = document.getElementById(viewName);
+            targetView.classList.remove('hidden');
+            targetView.classList.add('active');
             
             // Update nav buttons
-            const navBtns = document.querySelectorAll('.nav-btn');
+            const navBtns = document.querySelectorAll('.nav-btn-premium');
             navBtns.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
             
@@ -1044,12 +649,10 @@
             }
         }
 
-        // Modal functions
+        // Enhanced modal functions with animations
         function openModal(modalId) {
             const modal = document.getElementById(modalId);
-            modal.style.display = 'flex';
-            // Force reflow for animation
-            modal.offsetHeight;
+            modal.classList.remove('hidden');
             modal.classList.add('show');
             
             // Pre-fill about modal
@@ -1062,11 +665,11 @@
             const modal = document.getElementById(modalId);
             modal.classList.remove('show');
             setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300); // Match transition duration
+                modal.classList.add('hidden');
+            }, 300);
         }
 
-        // Task management
+        // Enhanced task management with celebrations
         function addTask(event) {
             event.preventDefault();
             
@@ -1084,17 +687,26 @@
             updateStats();
             closeModal('taskModal');
             
+            // Success feedback
+            showSuccessMessage('Goal added successfully! 🎯');
+            
             // Reset form
             document.getElementById('taskInput').value = '';
         }
 
         function toggleTask(taskId) {
             const task = appData.tasks.find(t => t.id === taskId);
+            const taskElement = document.querySelector(`[data-task-id="${taskId}"]`);
+            
             if (task) {
                 task.completed = !task.completed;
                 
-                // If task is completed, add it as an achievement
                 if (task.completed) {
+                    // Celebration animation
+                    taskElement.classList.add('task-completing');
+                    createConfetti(taskElement);
+                    
+                    // Add achievement
                     const achievement = {
                         id: Date.now(),
                         title: `Completed: ${task.text}`,
@@ -1103,9 +715,15 @@
                     };
                     appData.achievements.push(achievement);
                     renderAchievements();
+                    
+                    setTimeout(() => {
+                        taskElement.classList.remove('task-completing');
+                        renderTasks();
+                    }, 600);
+                } else {
+                    renderTasks();
                 }
                 
-                renderTasks();
                 updateStats();
             }
         }
@@ -1120,7 +738,16 @@
             const taskList = document.getElementById('taskList');
             
             if (appData.tasks.length === 0) {
-                taskList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 2rem;">No tasks yet. Add your first goal to get started!</p>';
+                taskList.innerHTML = `
+                    <div class="empty-state-premium text-center py-12 rounded-2xl">
+                        <div class="text-6xl mb-4">🎯</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No goals set yet</h3>
+                        <p class="text-gray-500 mb-6">Set your first career goal and start tracking your progress</p>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('taskModal')">
+                            Add Your First Goal
+                        </button>
+                    </div>
+                `;
                 return;
             }
             
@@ -1131,20 +758,18 @@
             });
             
             taskList.innerHTML = sortedTasks.map(task => `
-                <div class="task-item ${task.completed ? 'completed' : ''}">
-                    <input type="checkbox" class="checkbox" ${task.completed ? 'checked' : ''} 
+                <div class="task-item-premium bg-gray-50 p-4 rounded-xl border border-gray-100 flex items-center gap-4 ${task.completed ? 'opacity-60' : ''}" data-task-id="${task.id}">
+                    <input type="checkbox" class="w-5 h-5 accent-blue-500" ${task.completed ? 'checked' : ''} 
                            onchange="toggleTask(${task.id})">
-                    <span class="task-text">${task.text}</span>
-                    <span class="tech-tag">${task.category}</span>
-                    <span class="tech-tag" style="background: ${task.priority === 'high' ? '#ef4444' : task.priority === 'medium' ? '#f59e0b' : '#10b981'}; color: white;">${task.priority}</span>
-                    <div class="task-actions">
-                        <button class="btn btn-small" onclick="deleteTask(${task.id})">Delete</button>
-                    </div>
+                    <span class="flex-1 font-medium ${task.completed ? 'line-through text-gray-500' : 'text-gray-800'}">${task.text}</span>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${task.category}</span>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full text-white ${task.priority === 'high' ? 'bg-red-500' : task.priority === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}">${task.priority}</span>
+                    <button class="text-red-500 hover:text-red-700 font-medium text-sm px-3 py-1 rounded-lg hover:bg-red-50 transition-all" onclick="deleteTask(${task.id})">Delete</button>
                 </div>
             `).join('');
         }
 
-        // Skill management
+        // Enhanced skill management
         function addSkill(event) {
             event.preventDefault();
             
@@ -1159,6 +784,8 @@
             renderSkills();
             updateStats();
             closeModal('skillModal');
+            
+            showSuccessMessage('Skill added successfully! ⚡');
             
             // Reset form
             document.getElementById('skillInput').value = '';
@@ -1176,22 +803,31 @@
             const skillsList = document.getElementById('skillsList');
             
             if (appData.skills.length === 0) {
-                skillsList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 2rem;">No skills tracked yet. Add your first skill!</p>';
+                skillsList.innerHTML = `
+                    <div class="empty-state-premium text-center py-12 rounded-2xl col-span-full">
+                        <div class="text-6xl mb-4">⚡</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No skills tracked yet</h3>
+                        <p class="text-gray-500 mb-6">Add your first skill to showcase your expertise</p>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('skillModal')">
+                            Add Your First Skill
+                        </button>
+                    </div>
+                `;
                 return;
             }
             
             skillsList.innerHTML = appData.skills.map(skill => `
-                <div class="skill-item">
-                    <div class="skill-header">
-                        <span class="skill-name">${skill.name}</span>
-                        <span class="skill-level">${skill.level}/10</span>
+                <div class="skill-premium bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-semibold text-gray-800">${skill.name}</span>
+                        <span class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">${skill.level}/10</span>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${skill.level * 10}%"></div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-3 overflow-hidden">
+                        <div class="progress-premium h-2 rounded-full transition-all duration-1000 ease-out" style="width: ${skill.level * 10}%"></div>
                     </div>
-                    <div style="margin-top: 0.5rem;">
-                        <span class="tech-tag">${skill.category}</span>
-                        <button class="btn btn-small" onclick="deleteSkill(${skill.id})" style="float: right;">Delete</button>
+                    <div class="flex justify-between items-center">
+                        <span class="px-3 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">${skill.category}</span>
+                        <button class="text-red-500 hover:text-red-700 font-medium text-sm px-3 py-1 rounded-lg hover:bg-red-50 transition-all" onclick="deleteSkill(${skill.id})">Delete</button>
                     </div>
                 </div>
             `).join('');
@@ -1199,21 +835,33 @@
 
         function syncSkillsToPortfolio() {
             const portfolioSkills = document.getElementById('portfolioSkills');
+            
+            if (appData.skills.length === 0) {
+                portfolioSkills.innerHTML = `
+                    <div class="empty-state-premium text-center py-12 rounded-2xl col-span-full">
+                        <div class="text-6xl mb-4">⚡</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No skills to display</h3>
+                        <p class="text-gray-500">Add skills in the Dashboard to showcase your expertise here</p>
+                    </div>
+                `;
+                return;
+            }
+            
             portfolioSkills.innerHTML = appData.skills.map(skill => `
-                <div class="skill-item">
-                    <div class="skill-header">
-                        <span class="skill-name">${skill.name}</span>
-                        <span class="skill-level">${skill.level}/10</span>
+                <div class="skill-premium bg-gray-50 p-6 rounded-xl border border-gray-100">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="font-semibold text-gray-800">${skill.name}</span>
+                        <span class="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">${skill.level}/10</span>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: ${skill.level * 10}%"></div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-3 overflow-hidden">
+                        <div class="progress-premium h-2 rounded-full transition-all duration-1000 ease-out" style="width: ${skill.level * 10}%"></div>
                     </div>
-                    <span class="tech-tag">${skill.category}</span>
+                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-purple-100 text-purple-800">${skill.category}</span>
                 </div>
             `).join('');
         }
 
-        // Project management
+        // Enhanced project management
         function addProject(event) {
             event.preventDefault();
             
@@ -1230,6 +878,8 @@
             updateStats();
             closeModal('projectModal');
             
+            showSuccessMessage('Project added successfully! 💼');
+            
             // Reset form
             document.querySelector('#projectModal form').reset();
         }
@@ -1244,21 +894,34 @@
             const projectsList = document.getElementById('projectsList');
             
             if (appData.projects.length === 0) {
-                projectsList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 2rem;">No projects yet. Add your first project to showcase your work!</p>';
+                projectsList.innerHTML = `
+                    <div class="empty-state-premium text-center py-12 rounded-2xl col-span-full">
+                        <div class="text-6xl mb-4">💼</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No projects yet</h3>
+                        <p class="text-gray-500 mb-6">Showcase your best work and demonstrate your skills</p>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('projectModal')">
+                            Add Your First Project
+                        </button>
+                    </div>
+                `;
                 return;
             }
             
             projectsList.innerHTML = appData.projects.map(project => `
-                <div class="project-card">
-                    <div class="project-image">${project.name.charAt(0).toUpperCase()}</div>
-                    <div class="project-content">
-                        <h3 class="project-title">${project.name}</h3>
-                        <p class="project-description">${project.description}</p>
-                        <div class="tech-tags">
-                            ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                <div class="project-card-premium bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+                    <div class="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white text-4xl font-bold">
+                        ${project.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">${project.name}</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">${project.description}</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${project.technologies.map(tech => `<span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">${tech}</span>`).join('')}
                         </div>
-                        ${project.url ? `<a href="${project.url}" target="_blank" class="btn" style="margin-top: 1rem; display: inline-block;">View Project</a>` : ''}
-                        <button class="btn btn-secondary btn-small" onclick="deleteProject(${project.id})" style="margin-top: 1rem; margin-left: 0.5rem;">Delete</button>
+                        <div class="flex gap-2">
+                            ${project.url ? `<a href="${project.url}" target="_blank" class="btn-premium text-white px-4 py-2 rounded-lg font-semibold text-sm flex-1 text-center">View Project</a>` : ''}
+                            <button class="text-red-500 hover:text-red-700 font-medium text-sm px-3 py-2 rounded-lg hover:bg-red-50 transition-all" onclick="deleteProject(${project.id})">Delete</button>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -1280,6 +943,8 @@
             renderExperiences();
             closeModal('experienceModal');
             
+            showSuccessMessage('Experience added successfully! 👔');
+            
             // Reset form
             document.querySelector('#experienceModal form').reset();
         }
@@ -1293,20 +958,30 @@
             const experienceList = document.getElementById('experienceList');
             
             if (appData.experiences.length === 0) {
-                experienceList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 2rem;">No work experience added yet.</p>';
+                experienceList.innerHTML = `
+                    <div class="empty-state-premium text-center py-12 rounded-2xl">
+                        <div class="text-6xl mb-4">👔</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No work experience added yet</h3>
+                        <p class="text-gray-500 mb-6">Add your professional experience and internships</p>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('experienceModal')">
+                            Add Experience
+                        </button>
+                    </div>
+                `;
                 return;
             }
             
             experienceList.innerHTML = appData.experiences.map(exp => `
-                <div class="task-item" style="flex-direction: column; align-items: flex-start;">
-                    <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-                        <div>
-                            <h4 style="margin: 0; color: var(--text);">${exp.title} at ${exp.company}</h4>
-                            <p style="margin: 0.5rem 0; color: var(--text-light); font-size: 0.875rem;">${exp.duration}</p>
+                <div class="bg-gray-50 p-6 rounded-xl border border-gray-100 mb-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-semibold text-gray-900">${exp.title}</h4>
+                            <p class="text-blue-600 font-medium">${exp.company}</p>
+                            <p class="text-sm text-gray-500 mb-2">${exp.duration}</p>
+                            ${exp.description ? `<p class="text-gray-700 leading-relaxed">${exp.description}</p>` : ''}
                         </div>
-                        <button class="btn btn-small" onclick="deleteExperience(${exp.id})">Delete</button>
+                        <button class="text-red-500 hover:text-red-700 font-medium text-sm px-3 py-1 rounded-lg hover:bg-red-50 transition-all ml-4" onclick="deleteExperience(${exp.id})">Delete</button>
                     </div>
-                    ${exp.description ? `<p style="margin: 0.5rem 0 0 0; color: var(--text);">${exp.description}</p>` : ''}
                 </div>
             `).join('');
         }
@@ -1326,6 +1001,8 @@
             renderAchievements();
             closeModal('achievementModal');
             
+            showSuccessMessage('Achievement added successfully! 🏆');
+            
             // Reset form
             document.querySelector('#achievementModal form').reset();
         }
@@ -1339,22 +1016,33 @@
             const achievementsList = document.getElementById('achievementsList');
             
             if (appData.achievements.length === 0) {
-                achievementsList.innerHTML = '<p style="color: var(--text-light); text-align: center; padding: 2rem;">No achievements recorded yet. Complete some tasks or add manual achievements!</p>';
+                achievementsList.innerHTML = `
+                    <div class="empty-state-premium text-center py-12 rounded-2xl">
+                        <div class="text-6xl mb-4">🏆</div>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No achievements recorded yet</h3>
+                        <p class="text-gray-500 mb-6">Track your accomplishments and celebrate your wins</p>
+                        <button class="btn-premium text-white px-6 py-3 rounded-xl font-semibold shadow-lg" onclick="openModal('achievementModal')">
+                            Add Achievement
+                        </button>
+                    </div>
+                `;
                 return;
             }
             
             const sortedAchievements = [...appData.achievements].sort((a, b) => new Date(b.date) - new Date(a.date));
             
             achievementsList.innerHTML = sortedAchievements.map(achievement => `
-                <div class="task-item" style="flex-direction: column; align-items: flex-start;">
-                    <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
-                        <div>
-                            <h4 style="margin: 0; color: var(--success);">🏆 ${achievement.title}</h4>
-                            <p style="margin: 0.5rem 0; color: var(--text-light); font-size: 0.875rem;">${achievement.date}</p>
+                <div class="bg-gradient-to-r from-emerald-50 to-blue-50 p-6 rounded-xl border border-emerald-200 mb-4">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <h4 class="text-lg font-semibold text-emerald-700 flex items-center gap-2">
+                                🏆 ${achievement.title}
+                            </h4>
+                            <p class="text-sm text-gray-500 mb-2">${achievement.date}</p>
+                            ${achievement.description ? `<p class="text-gray-700 leading-relaxed">${achievement.description}</p>` : ''}
                         </div>
-                        <button class="btn btn-small" onclick="deleteAchievement(${achievement.id})">Delete</button>
+                        <button class="text-red-500 hover:text-red-700 font-medium text-sm px-3 py-1 rounded-lg hover:bg-red-50 transition-all ml-4" onclick="deleteAchievement(${achievement.id})">Delete</button>
                     </div>
-                    ${achievement.description ? `<p style="margin: 0.5rem 0 0 0; color: var(--text);">${achievement.description}</p>` : ''}
                 </div>
             `).join('');
         }
@@ -1365,6 +1053,7 @@
             appData.about = document.getElementById('aboutInput').value;
             document.getElementById('aboutText').textContent = appData.about;
             closeModal('aboutModal');
+            showSuccessMessage('About section updated! ✨');
         }
 
         // Statistics
@@ -1375,9 +1064,51 @@
             document.getElementById('totalProjects').textContent = appData.projects.length;
         }
 
+        // Enhanced visual feedback
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'fixed top-24 right-6 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50 transform translate-x-full transition-all duration-300';
+            successDiv.textContent = message;
+            
+            document.body.appendChild(successDiv);
+            
+            setTimeout(() => {
+                successDiv.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                successDiv.style.transform = 'translateX(full)';
+                setTimeout(() => {
+                    document.body.removeChild(successDiv);
+                }, 300);
+            }, 3000);
+        }
+
+        function createConfetti(element) {
+            const colors = ['#fbbf24', '#10b981', '#3b82f6', '#8b5cf6', '#ef4444', '#06b6d4'];
+            const rect = element.getBoundingClientRect();
+            
+            for (let i = 0; i < 20; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = (rect.left + rect.width/2 + (Math.random() - 0.5) * 200) + 'px';
+                confetti.style.top = (rect.top + rect.height/2) + 'px';
+                confetti.style.animationDelay = Math.random() * 0.3 + 's';
+                
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    if (document.body.contains(confetti)) {
+                        document.body.removeChild(confetti);
+                    }
+                }, 1000);
+            }
+        }
+
         // Close modals when clicking outside
         window.addEventListener('click', function(event) {
-            const modals = document.querySelectorAll('.modal');
+            const modals = document.querySelectorAll('.modal-premium');
             modals.forEach(modal => {
                 if (event.target === modal) {
                     const modalId = modal.id;
